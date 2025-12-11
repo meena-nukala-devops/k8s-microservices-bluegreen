@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-blue
+  namespace: prod
+  labels: { app: api, track: blue }
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: api, track: blue }
+  template:
+    metadata:
+      labels: { app: api, track: blue }
+    spec:
+      containers:
+      - name: api
+        image: ghcr.io/meena-nukala-devops/api:latest
+        ports: [{ name: http, containerPort: 8080 }]
+        readinessProbe: { httpGet: { path: /health, port: 8080 }, initialDelaySeconds: 3 }
+        livenessProbe: { httpGet: { path: /health, port: 8080 }, initialDelaySeconds: 10 }
