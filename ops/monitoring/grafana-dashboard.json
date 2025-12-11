@@ -1,0 +1,9 @@
+{
+  "title": "API RED Dashboard",
+  "panels": [
+    { "type": "graph", "title": "Requests", "targets": [{ "expr": "sum(rate(http_requests_total[5m]))" }] },
+    { "type": "graph", "title": "Error Rate", "targets": [{ "expr": "sum(rate(http_requests_total{status=~\"5..\"}[5m])) / sum(rate(http_requests_total[5m]))" }] },
+    { "type": "graph", "title": "Latency (ms)", "targets": [{ "expr": "latency_ms" }] }
+  ],
+  "time": { "from": "now-6h", "to": "now" }
+}
