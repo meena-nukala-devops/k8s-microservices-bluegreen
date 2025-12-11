@@ -1,0 +1,12 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: api
+  namespace: prod
+spec:
+  host: api.prod.svc.cluster.local
+  subsets:
+  - name: blue
+    labels: { track: blue }
+  - name: green
+    labels: { track: green }
