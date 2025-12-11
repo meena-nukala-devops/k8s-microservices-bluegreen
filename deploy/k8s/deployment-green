@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-green
+  namespace: prod
+  labels: { app: api, track: green }
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: api, track: green }
+  template:
+    metadata:
+      labels: { app: api, track: green }
+    spec:
+      containers:
+      - name: api
+        image: ghcr.io/meena-nukala-devops/api:latest
+        ports: [{ name: http, containerPort: 8080 }]
+        env:
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://otel-collector:4317
+        readinessProbe: { httpGet: { path: /health, port: 8080 }, initialDelaySeconds: 3 }
+        livenessProbe: { httpGet: { path: /health, port: 8080 }, initialDelaySeconds: 10 }
