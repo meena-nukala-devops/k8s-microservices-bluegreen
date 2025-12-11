@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: api
+  namespace: prod
+spec:
+  hosts: [ "api.prod.svc.cluster.local" ]
+  http:
+  - route:
+    - destination:
+        host: api.prod.svc.cluster.local
+        subset: blue
+      weight: 20
+    - destination:
+        host: api.prod.svc.cluster.local
+        subset: green
+      weight: 80
